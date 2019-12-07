@@ -88,8 +88,8 @@ class WebView(object):
             glossary = g.get_results()
             glossary_time = "{:.2f}".format(time.time() - start_glos_time)
 
-            start_process_time = time.time()
             raw_results = search.get_results()
+            start_process_time = time.time()
             num_results = raw_results.scored_length()
 
             if len(raw_results) > 0:
@@ -122,7 +122,7 @@ class WebView(object):
             'project': search.project,
             'results': results,
             'num_results': num_results,
-            'time': "{:.2f}".format(total_time)  + " glo:" + glossary_time + " process:" + process_time,
+            'time': "{:.2f}".format(total_time)  + " glo: " + glossary_time + " process:" + process_time,
             'aborted_search': aborted_search,
             'glossary': glossary,
             'pagination': pagination,
