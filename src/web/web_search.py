@@ -131,10 +131,12 @@ class WebView(object):
             'pagination': pagination,
         }
 
+        _time = time.time()
         env = Environment(loader=FileSystemLoader('./'))
         template = env.get_template('templates/search_results.html')
-
         r = template.render(ctx).encode('utf-8')
+        render_time = "** Render time: {:.2f}".format(time.time() - _time)
+        print(render_time)
         return r
 
 
