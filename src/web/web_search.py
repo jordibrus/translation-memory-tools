@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- encoding: utf-8 -*-
 #
 # Copyright (c) 2014-2015 Jordi Mas i Hernandez <jmas@softcatala.org>
@@ -74,16 +74,21 @@ class WebView(object):
         PER_PAGE = 100
 
         start_time = time.time()
+        glossary_time = ''
+        process_time = ''
 
         if search.has_invalid_search_term:
             aborted_search = True
             pagination = None
             glossary = None
         else:
+            start_glos_time = time.time()
             g = Glossary(search.source)
             g.search()
             glossary = g.get_results()
+            glossary_time = "{:.2f}".format(time.time() - start_glos_time)
 
+            start_process_time = time.time()
             raw_results = search.get_results()
             num_results = raw_results.scored_length()
 
@@ -105,6 +110,8 @@ class WebView(object):
 
                 for i in range(start, end):
                     results.append(self.get_result(raw_results[i]))
+
+                process_time = "{:.2f}".format(time.time() - start_process_time)
             else:
                 pagination = None
 
@@ -115,7 +122,7 @@ class WebView(object):
             'project': search.project,
             'results': results,
             'num_results': num_results,
-            'time': "{:.2f}".format(total_time),
+            'time': "{:.2f}".format(total_time)  + " glo:" + glossary_time + " process:" + process_time,
             'aborted_search': aborted_search,
             'glossary': glossary,
             'pagination': pagination,
